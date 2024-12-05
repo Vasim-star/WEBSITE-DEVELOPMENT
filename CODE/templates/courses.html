@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Available Courses</h2>
+<ul>
+    {% for course in courses %}
+        <li><strong>{{ course.title }}</strong>: {{ course.description }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
