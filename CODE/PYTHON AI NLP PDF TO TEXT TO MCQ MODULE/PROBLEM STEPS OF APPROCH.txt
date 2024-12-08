@@ -1,0 +1,116 @@
+1. Problem Breakdown
+Input: PDF of an exam question paper.
+Output: Structured questions classified as:
+Multiple Choice Questions (MCQ): Question + options.
+Numerical Questions: Question + expected input format.
+Steps:
+
+Extract text and layout from the PDF.
+Parse the extracted text to identify and structure questions.
+Classify questions into categories.
+Format the output for an online test system.
+2. Data Requirements
+To train your model, you'll need labeled datasets containing examples of question papers in both raw (PDF/text) and structured formats. These datasets should cover:
+
+MCQs (with and without options)
+Numerical questions
+True/False questions
+Paragraph-based questions (if applicable)
+Sources for Training Data
+Publicly Available Exam Papers:
+
+Use question papers from educational boards (e.g., CBSE, SAT, GRE).
+Websites hosting free past papers or sample tests.
+Generated Data:
+
+Create a synthetic dataset by manually preparing PDF files with diverse question formats and corresponding structured data (JSON/CSV).
+Online Question Banks:
+
+Scrape or use APIs from websites like Examveda, LeetCode, or Khan Academy (with permission).
+Datasets:
+
+Public datasets like RACE (reading comprehension) may have structured question formats that can be used for text classification and parsing.
+3. Data Annotation
+Manually annotate extracted text with labels:
+
+Question Type: MCQ, Numerical, True/False.
+Question Segments:
+Question Body.
+Options (if MCQ).
+Correct Answer/Range (optional, for training validation).
+Example JSON for Labeled Data:
+json
+Copy code
+{
+  "question_id": "Q1",
+  "question_type": "MCQ",
+  "question_text": "What is the capital of France?",
+  "options": [
+    {"A": "Paris"},
+    {"B": "Berlin"},
+    {"C": "Madrid"},
+    {"D": "Rome"}
+  ],
+  "correct_answer": "A"
+}
+4. Preprocessing Pipeline
+PDF to Text Conversion: Use tools like pdfminer, PyPDF2, or Tesseract OCR (for scanned PDFs).
+
+Text Cleanup:
+
+Remove headers, footers, and noise.
+Use regex to identify common patterns in questions (e.g., numbered questions, "A.", "B.", etc.).
+Segmentation:
+
+Split text into individual questions and detect options.
+Annotation Augmentation:
+
+Add bounding box annotations if leveraging layout-aware models like LayoutLM.
+5. Model Selection
+Text Classification:
+
+Use models like BERT, RoBERTa, or DistilBERT to classify question types.
+Fine-tune with labeled data.
+Sequence Parsing:
+
+Use sequence-to-sequence models (e.g., T5, GPT) for question parsing.
+Layout-Aware Models:
+
+If layout information (e.g., table structures, position of options) is crucial, consider models like LayoutLMv3.
+6. Testing Data
+Use a separate set of unseen exam papers for testing. This should:
+
+Be diverse in structure (e.g., different fonts, formats, and layouts).
+Include edge cases (e.g., no options for MCQ, mixed formats).
+Evaluation Metrics:
+Accuracy: Correct classification of question types.
+Precision/Recall: For identifying options, numerical ranges, etc.
+Human Review: Compare automated output with manually structured results.
+7. Tools & Frameworks
+Text Extraction:
+
+pdfminer.six
+PyPDF2
+Tesseract OCR (for images).
+NLP Models:
+
+Hugging Face Transformers.
+SpaCy for text preprocessing.
+Annotation Tools:
+
+Label Studio.
+Custom scripts for manual tagging.
+Data Storage:
+
+JSON/CSV for structured outputs.
+SQL/NoSQL databases for integration with an online system.
+8. Example Workflow
+Extract text:
+python
+Copy code
+from pdfminer.high_level import extract_text
+text = extract_text("example.pdf")
+Parse text to identify questions and options using regex or rule-based methods.
+Feed parsed questions into a classification model (e.g., fine-tuned BERT).
+Output structured JSON for ingestion by the online test system.
+Let me know if you need help setting up specific parts of this pipeline!
