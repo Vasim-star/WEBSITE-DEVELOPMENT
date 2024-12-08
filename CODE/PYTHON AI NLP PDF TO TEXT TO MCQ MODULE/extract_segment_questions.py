@@ -31,7 +31,7 @@ def classify_segments(segments):
     return predictions
 
 # Step 4: Run the pipeline
-pdf_path = "B:\PERSONAL DOCS\BUSSINESS MODEL\ONLINE EXAMINATION BUSINESS\CODE\PYTHON AI NLP PDF TO TEXT TO MCQ MODULE\extract_segment_questions.py"
+pdf_path = "B:\PERSONAL DOCS\BUSSINESS MODEL\ONLINE EXAMINATION BUSINESS\CODE\PYTHON AI NLP PDF TO TEXT TO MCQ MODULE\CAT2000.pdf"
 text = extract_text(pdf_path)
 segments = segment_questions(text)
 classified_segments = classify_segments(segments)
